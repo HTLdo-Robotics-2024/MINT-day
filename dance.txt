@@ -1,0 +1,81 @@
+//dance
+#include <kipr/wombat.h>
+
+#define TURN90 1020
+#define ARM 0
+#define HAND 1
+
+
+int main()
+{
+    printf("watch me dance :D\n");
+    enable_servos();
+    set_servo_position(HAND, 1000);
+    set_servo_position(ARM, 800);
+    msleep(2000);
+    int switcher = 0;
+
+    while (1) {
+        //move forwards
+        mav(0, 1000);
+        mav(1, 1000);
+        msleep(1000);
+
+        mrp(0, 0, 0);
+        mrp(1, 0, 0);
+
+
+
+        //move arm up
+        for (int i = 800; i >= 0; i--) {
+            set_servo_position(ARM, i);
+            msleep(1);
+        }
+
+
+
+        //spin 90/-270
+        if (switcher == 1) {
+            mav(0, -1000);
+            mav(1, 1000);
+            msleep(3 * TURN90);
+        } else {
+            mav(1, -1000);
+            msleep(2 * TURN90);
+
+        }
+
+        mrp(0, 0, 0);
+        mrp(1, 0, 0);
+
+
+        set_servo_position(HAND, 0);
+        msleep(250);
+        set_servo_position(HAND, 1000);
+        msleep(250);
+
+
+
+        for (int i = 0; i <= 800; i++) {
+            set_servo_position(ARM, i);
+            msleep(1);
+        }
+
+
+
+        mrp(0, 0, 0);
+        mrp(1, 0, 0);
+
+        switcher = (switcher + 1) % 2;
+    }
+
+
+
+
+
+
+
+    ao();
+
+    return 0;
+}
