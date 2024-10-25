@@ -1,0 +1,24 @@
+#include <kipr/wombat.h>
+
+int main()
+{
+    printf("watch me dance :D\n");
+    enable_servos();
+    set_servo_position(1, 1000);
+    set_servo_position(0, 800);
+    msleep(2000);
+
+	int speed = 1000;
+    float rot = 3;
+    float rotDuration = (rot*1000)/1000;
+    printf("speed: %d\nrotations: %f\nduration: %f\n", speed, rot, rotDuration);
+
+    mrp(0, speed, 10000);//rot*1000); //*1000 ticks, per rotation
+    mrp(1, speed, rot*1000);
+	msleep(rotDuration*1000 + 20000);//*1000milliseconds, per second
+
+
+
+
+    return 0;
+}
